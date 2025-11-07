@@ -1,112 +1,138 @@
 # Sabor da Vila App
 
-Sistema de gestão para a Lanchonete Sabor da Vila - Aplicativo mobile para controle de vendas e estoque.
+Aplicativo mobile para gerenciamento de vendas e controle de estoque da lanchonete "Sabor da Vila". O projeto foi criado com Expo + React Native e foca em uma experiência simples e rápida para registrar vendas e gerenciar produtos.
 
-## 🚀 Tecnologias Utilizadas
+## � Principais pontos
+- Navegação por plataforma: Drawer (menu hambúrguer) no Android e abas inferiores no iOS
+- Header customizado com botão de menu (Android)
+- Banco local com SQLite para vendas e estoque
 
-- **React Native** com Expo
-- **TypeScript** para tipagem
-- **NativeWind** (Tailwind CSS para React Native)
-- **Expo Router** para navegação
-- **Lucide React Native** para ícones
+---
 
-## 📱 Funcionalidades
+## 📸 Screenshots Android
 
-- **Dashboard**: Resumo das vendas do dia e ações rápidas
-- **Vendas**: Registro rápido de novas vendas
-- **Estoque**: Controle de produtos com alertas de estoque baixo
 
-## 🛠️ Instalação e Execução
+![Menu](./assets/screenshots/Screenshot_1762491989.png)
+![Dashboard](./assets/screenshots/Screenshot_1762491996.png)
+![Vendas](./assets/screenshots/Screenshot_1762492004.png)
+![Estoque](./assets/screenshots/Screenshot_1762492068.png)
 
-### Pré-requisitos
-- Node.js (versão 18 ou superior)
+---
+
+## 📸 Screenshots IOS
+
+![Dashboard](./assets/screenshots/Dashboard.jpg)
+![Vendas](./assets/screenshots/Vendas.jpg)
+![Estoque](./assets/screenshots/Estoque.jpg)
+
+---
+
+## 🚀 Tecnologias
+
+- Expo (SDK)
+- React Native + TypeScript
+- Expo Router (navegação baseada em arquivos)
+- react-native-reanimated & react-native-worklets (animações e worklets)
+- Expo SQLite (armazenamento local)
+- NativeWind / Tailwind (estilização)
+- Lucide React Native / @expo/vector-icons
+
+---
+
+## 🛠️ Requisitos
+
+- Node.js 18+
 - npm ou yarn
-- Expo CLI (`npm install -g @expo/cli`)
+- Expo CLI (opcional globalmente)
 
-### Passos para executar
+---
 
-1. **Instalar dependências:**
-   ```bash
-   npm install
-   ```
+## ⚡ Quick Start
 
-2. **Executar o projeto:**
-   ```bash
-   npx expo start
-   ```
+1. Instale dependências:
 
-3. **Executar em dispositivo específico:**
-   ```bash
-   # Android
-   npx expo start --android
-   
-   # iOS
-   npx expo start --ios
-   
-   # Web
-   npx expo start --web
-   ```
+```bash
+npm install
+# ou
+yarn
+```
 
-## 📁 Estrutura do Projeto
+2. Inicie o Metro (com cache limpo se necessário):
+
+```bash
+npx expo start -c
+```
+
+3. Abra no dispositivo/emulador:
+
+```bash
+# Android
+npx expo start --android
+
+# iOS
+npx expo start --ios
+
+# Web
+npx expo start --web
+```
+
+---
+
+## 📁 Estrutura principal
 
 ```
 src/
-├── app/                 # Telas e navegação (Expo Router)
-│   ├── _layout.tsx     # Configuração da navegação de abas
-│   ├── index.tsx       # Dashboard
-│   ├── sales.tsx       # Tela de Vendas
-│   └── inventory.tsx   # Tela de Estoque
-├── components/         # Componentes reutilizáveis
-│   ├── Header.tsx
-│   ├── Input.tsx
-│   ├── Button.tsx
-│   └── Card.tsx
-├── assets/            # Imagens, fontes, etc.
-└── styles/
-    └── global.css    # Configuração base do Tailwind
+├─ app/                 # Rotas e telas (Expo Router)
+│  ├─ _layout.tsx       # Layout root: Drawer (Android) / Slot (iOS)
+│  ├─ index.tsx         # Dashboard
+│  ├─ tabs/             # Layouts e telas das abas
+│  │  ├─ _layout.tsx    # Tabs bottom (iOS)
+│  │  ├─ index.tsx      # Tela principal (Dashboard)
+│  │  ├─ sales.tsx      # Vendas
+│  │  └─ inventory.tsx  # Estoque
+├─ components/          # Componentes reutilizáveis (Header, Button, Card...)
+├─ database/            # Repositórios e inicialização do SQLite
+├─ assets/              # Imagens, screenshots, fontes
+└─ styles/              # Config global do styling
 ```
 
-## 🎨 Design
+---
 
-O aplicativo utiliza um tema escuro moderno com:
-- Cores principais: Zinc (cinza escuro) e Indigo (azul)
-- Interface limpa e intuitiva
-- Componentes reutilizáveis
-- Navegação por abas na parte inferior
+## ✅ Funcionalidades implementadas
 
-## 📋 Funcionalidades Implementadas
+- Dashboard com resumo de vendas e ações rápidas
+- Registro e listagem de vendas
+- Gerenciamento de estoque (adicionar produto / controlar quantidade)
+- Navegação por plataforma (Drawer Android / Tabs iOS)
+- Header custom e Drawer com itens e ícones
 
-### Dashboard
-- Cards com resumo das vendas do dia
-- Ações rápidas para nova venda e adicionar produto
-- Estatísticas da semana
+---
 
-### Vendas
-- Formulário para registro de vendas
-- Validação de campos obrigatórios
-- Lista de vendas recentes
-- Confirmação visual das vendas
+## � Notas de desenvolvimento
 
-### Estoque
-- Lista de produtos com quantidades
-- Alertas visuais para estoque baixo
-- Formulário para adicionar novos produtos
-- Controle de quantidade mínima
+- Header: existe um `Header` custom (em `src/components/Header.tsx`) que mantém o título centralizado e mostra o ícone de menu no Android (abre o Drawer).
+- Navegação: para ir a uma screen de tab a partir do Drawer usamos `navigation.navigate('tabs', { screen: 'sales' })` (navegação aninhada).
+- Worklets / Reanimated: versões alinhadas para evitar mismatch entre parte JS e nativa; se houver erro de versão, rode `npx expo install react-native-worklets react-native-reanimated` e faça rebuild.
 
-## 🔧 Configuração
+---
 
-O projeto está configurado com:
-- **TypeScript** para tipagem estática
-- **NativeWind** para estilização com Tailwind CSS
-- **Expo Router** para navegação baseada em arquivos
-- **Lucide React Native** para ícones consistentes
+## ✔️ Scripts úteis
 
-## 📱 Compatibilidade
+No `package.json` existem scripts padrão do Expo:
 
-- iOS 13.0+
-- Android 6.0+
-- Web (Chrome, Firefox, Safari)
+```bash
+npm run start   # inicia o bundler
+npm run android # compila/emula no Android
+npm run ios     # compila/emula no iOS
+npm run web     # roda no navegador
+```
 
-## 🤝 Contribuição
+---
 
-Este é um projeto de demonstração para a Lanchonete Sabor da Vila. Para sugestões ou melhorias, entre em contato com a equipe de desenvolvimento.
+## Contribuições
+
+Contribuições são bem-vindas. Abra uma issue ou envie um PR com descrições claras do que mudou. Para mudanças maiores, prefira criar uma branch por feature.
+
+
+
+
