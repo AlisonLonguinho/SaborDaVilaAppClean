@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import { Slot, Tabs } from 'expo-router';
-import { Home, ShoppingCart, Archive } from 'lucide-react-native';
+import { Home, ShoppingCart, Archive, Settings } from 'lucide-react-native';
 
 export default function TabsLayout() {
   if (Platform.OS === 'android') {
@@ -47,6 +47,15 @@ export default function TabsLayout() {
           title: 'Estoque',
           tabBarIcon: ({ color, size }) => (
             <Archive color={color} size={size} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="DebugScreen"
+        options={{
+          title: 'Debug',
+          tabBarIcon: ({ color, size }) => (
+            <Settings color={color} size={size} />
           ),
         }}
       />

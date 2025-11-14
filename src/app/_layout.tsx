@@ -16,7 +16,7 @@ export default function RootLayout() {
   return (
     <Drawer
       initialRouteName="tabs"
-      // custom drawerContent so we only show the items we want (Dashboard, Vendas, Estoque)
+      // custom drawerContent so we only show the items we want (Dashboard, Vendas, Estoque, Debug)
       drawerContent={(props) => (
         <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#18181B', flex: 1 }}>
           <Text style={{ color: '#fff', padding: 16, fontWeight: '700' }}>Menu</Text>
@@ -38,6 +38,12 @@ export default function RootLayout() {
             icon={({ color, size }) => <MaterialIcons name="inventory" color={color} size={size} />}
             onPress={() => props.navigation.navigate('tabs', { screen: 'inventory' })}
           />
+          <DrawerItem
+            label="Debug"
+            labelStyle={{ color: '#fff' }}
+            icon={({ color, size }) => <MaterialIcons name="bug-report" color={color} size={size} />}
+            onPress={() => props.navigation.navigate('tabs', { screen: 'DebugScreen' })}
+          />
         </DrawerContentScrollView>
       )}
       screenOptions={{
@@ -52,8 +58,6 @@ export default function RootLayout() {
     >
       {/* screens still need to exist so navigation can resolve them */}
       <Drawer.Screen name="tabs" />
-      <Drawer.Screen name="tabs/sales" />
-      <Drawer.Screen name="tabs/inventory" />
     </Drawer>
   );
 }

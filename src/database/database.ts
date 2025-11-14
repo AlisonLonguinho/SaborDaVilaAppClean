@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 
 const DB_NAME = 'saborDaVila.db';
 const DB_PATH = `${FileSystem.documentDirectory}SQLite/${DB_NAME}`;

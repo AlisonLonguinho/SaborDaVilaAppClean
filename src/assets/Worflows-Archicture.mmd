@@ -1,0 +1,59 @@
+---
+query: "Gere para mim a arquitetura do aplicativo mobile que desevolvi "
+references:
+  - "File: /src"
+generationTime: 2025-11-14T16:08:13.737Z
+---
+architecture-beta
+    %% Frontend Layer
+    group frontend_layer(mdi:api)[Frontend Layer]
+    
+    %% Navigation Layer  
+    group navigation_layer(mdi:lan)[Navigation Layer]
+    
+    %% Data Layer
+    group data_layer(mdi:database)[Data Layer]
+    
+    %% External Services Layer
+    group external_layer(mdi:cloud)[External Services]
+    
+    %% React Native Core Services
+    service react_app(mdi:server)[React Native App] in frontend_layer
+    service expo_framework(mdi:api)[Expo Framework] in frontend_layer
+    service vector_icons(mdi:chart_line)[Vector Icons] in frontend_layer
+    service status_bar(mdi:shield)[Status Bar] in frontend_layer
+    
+    %% Navigation Services
+    service expo_router(mdi:lan)[Expo Router] in navigation_layer
+    service drawer_navigation(mdi:lan)[Drawer Navigation] in navigation_layer
+    service navigation_stack(mdi:lan)[Navigation Stack] in navigation_layer
+    
+    %% Data Management Services
+    service sqlite_database(mdi:database)[SQLite Database] in data_layer
+    service file_system(mdi:harddisk)[File System] in data_layer
+    service app_constants(mdi:shield)[App Constants] in data_layer
+    
+    %% External Integration Services
+    service linking_service(mdi:cloud)[Deep Linking] in external_layer
+    service web_support(mdi:api)[Web Support] in external_layer
+    service native_apis(mdi:server)[Native APIs] in external_layer
+    
+    %% Core App Flow Connections
+    react_app:B --> T:expo_framework
+    expo_framework:R --> L:expo_router
+    expo_router:R --> L:drawer_navigation
+    drawer_navigation:B --> T:navigation_stack
+    
+    %% Data Flow Connections
+    react_app:B --> T:sqlite_database
+    sqlite_database:R --> L:file_system
+    file_system:R --> L:app_constants
+    
+    %% UI Enhancement Connections
+    expo_framework:B --> T:vector_icons
+    vector_icons:R --> L:status_bar
+    
+    %% External Service Connections
+    expo_framework:R --> L:linking_service
+    linking_service:B --> T:web_support
+    web_support:R --> L:native_apis

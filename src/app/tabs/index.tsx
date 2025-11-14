@@ -8,8 +8,9 @@ import React, { useEffect, useState } from 'react';
 import { initializeDatabase } from '../../database/database';
 import { getDailySales, getWeeklySummary, initializeSalesTable } from '../../database/salesRepository';
 import { SalesSummary } from '../../types/sales';
-import { BarChart, Plus, Check } from 'lucide-react-native';
+import { BarChart, Plus, Check, Download } from 'lucide-react-native';
 import { NETSIM_HOST, NETSIM_PORT } from '../../config/netsim';
+import { exportDatabase } from '../../database/exportDatabase';
 
 
 export default function Index() {
@@ -72,6 +73,7 @@ export default function Index() {
 
   const handleNewSale = () => router.push('/tabs/sales');
   const handleAddProduct = () => router.push('/tabs/inventory');
+  const handleExportDatabase = () => exportDatabase();
 
   return (
     <View style={styles.container}>
@@ -104,6 +106,13 @@ export default function Index() {
               variant="secondary"
               size="large"
               icon={<Plus color="#3B82F6" size={20} />}
+            />
+            <Button
+              title="Exportar Banco"
+              onPress={handleExportDatabase}
+              variant="secondary"
+              size="large"
+              icon={<Download color="#10B981" size={20} />}
             />
           </View>
         </View>

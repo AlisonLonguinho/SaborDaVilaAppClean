@@ -1,0 +1,55 @@
+```mermaid
+erDiagram
+    %% Tabelas do Sistema Sabor da Vila
+    PRODUCTS {
+        int id PK "Chave primária auto-incremento"
+        string name "Nome do produto"
+        int quantity "Quantidade em estoque"
+        int minQuantity "Quantidade mínima em estoque"
+    }
+    
+    SALES {
+        int id PK "Chave primária auto-incremento"
+        string product "Nome do produto vendido"
+        int itemsSold "Quantidade de itens vendidos"
+        real total "Valor total da venda"
+        string createdAt "Data e hora da venda (ISO)"
+    }
+    
+    %% Relacionamento conceitual entre produtos e vendas
+    %% Uma venda pode referenciar um produto (por nome)
+    %% Um produto pode ter várias vendas associadas
+    PRODUCTS ||--o{ SALES : "pode_ter_vendas_de"
+    
+    %% Observações sobre o relacionamento:
+    %% - O relacionamento é baseado no campo 'product' da tabela SALES
+    %% - Não há FK formal, mas existe relação conceitual por nome
+    %% - Um produto pode ter zero ou mais vendas
+    %% - Uma venda referencia exatamente um produto (por nome)
+```
+
+**Notas sobre a estrutura do banco:**
+
+1. **PRODUCTS** - Controle de estoque
+   - `id`: Identificador único do produto
+   - `name`: Nome do produto (usado como referência nas vendas)
+   - `quantity`: Quantidade atual em estoque
+   - `minQuantity`: Estoque mínimo para alertas
+
+2. **SALES** - Registro de vendas
+   - `id`: Identificador único da venda
+   - `product`: Nome do produto (referência textual, não FK)
+   - `itemsSold`: Quantidade vendida
+   - `total`: Valor total da transação
+   - `createdAt`: Timestamp da venda
+
+3. **Relacionamento**
+   - Relação conceitual entre produtos e vendas via campo `product`
+   - Não há constraint de FK formal no SQLite
+   - Relacionamento 1:N (um produto pode ter muitas vendas)
+
+**Sugestões de melhorias futuras:**
+- Adicionar FK formal: `product_id` na tabela SALES
+- Criar tabela de categorias de produtos
+- Adicionar tabela de clientes/usuários
+- Implementar histórico de alterações de estoque

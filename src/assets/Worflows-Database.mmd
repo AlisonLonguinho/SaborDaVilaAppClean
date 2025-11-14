@@ -1,0 +1,50 @@
+---
+query: quero do banco o worflows das tabelas relacionais
+references:
+  - "File: /src"
+  - |-
+    Reference: Here is a list of instruction files that contain rules for modifying or creating new code.
+    These files are important for ensuring that the code is modified or created correctly.
+    Please make sure to follow the rules specified in these files when working with the codebase.
+    If the file is not already available as attachment, use the `read_file` tool to acquire it.
+    Make sure to acquire the instructions before making any changes to the code.
+    | File | Applies To | Description |
+    | ------- | --------- | ----------- |
+    | 'c:\Users\cliente\AppData\Local\Temp\postman-collections-post-response.instructions.md' | **/*-post-c-pm-* |  |
+    | 'c:\Users\cliente\AppData\Local\Temp\postman-collections-pre-request.instructions.md' | **/*-pre-c-pm-* |  |
+    | 'c:\Users\cliente\AppData\Local\Temp\postman-folder-post-response.instructions.md' | **/*-post-f-pm-* |  |
+    | 'c:\Users\cliente\AppData\Local\Temp\postman-folder-pre-request.instructions.md' | **/*-pre-f-pm-* |  |
+    | 'c:\Users\cliente\AppData\Local\Temp\postman-http-request-post-response.instructions.md' | **/*-post-r-pm-* |  |
+    | 'c:\Users\cliente\AppData\Local\Temp\postman-http-request-pre-request.instructions.md' | **/*-pre-r-pm-* |  |
+generationTime: 2025-11-14T15:41:31.363Z
+---
+erDiagram
+    USERS {
+        int id PK
+        string name
+        string email UK
+        datetime created_at
+    }
+    ORDERS {
+        int id PK
+        int user_id FK
+        datetime order_date
+        decimal total_amount
+    }
+    PRODUCTS {
+        int id PK
+        string name
+        decimal price
+        int stock_quantity
+    }
+    ORDER_ITEMS {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal unit_price
+    }
+    
+    USERS ||--o{ ORDERS : places
+    ORDERS ||--o{ ORDER_ITEMS : contains
+    PRODUCTS ||--o{ ORDER_ITEMS : includes

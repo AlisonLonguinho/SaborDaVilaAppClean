@@ -37,7 +37,6 @@ export const Button: React.FC<ButtonProps> = ({
       flexDirection: icon ? 'row' : 'column', // Se tiver ícone, organiza em linha
       alignItems: 'center',
       justifyContent: 'center',
-      gap: icon ? 8 : 0,
     };
   };
 
@@ -64,7 +63,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <TouchableOpacity style={getButtonStyle()} onPress={onPress} activeOpacity={0.8}>
       {icon && <View>{icon}</View>}
-      <Text style={getTextStyle()}>{title}</Text>
+      <Text style={[getTextStyle(), icon ? { marginLeft: 8 } : null]}>{title}</Text>
     </TouchableOpacity>
   );
 };
