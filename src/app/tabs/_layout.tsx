@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { Slot, Tabs, Stack } from 'expo-router';
+import { Tabs, Stack } from 'expo-router';
 import { Home, ShoppingCart, Archive, Settings, Building, BarChart3 } from 'lucide-react-native';
 
 export default function TabsLayout() {
@@ -16,6 +16,7 @@ export default function TabsLayout() {
     );
   }
 
+  // iOS: Use traditional tabs
   return (
     <Tabs
       screenOptions={{

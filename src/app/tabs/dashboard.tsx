@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useDashboard } from '../../hooks/useDashboard';
 import { DashboardCard } from '../../components/DashboardCard';
+import { Header } from '../../components/Header';
 import {
   SalesLineChart,
   TopProductsBarChart,
@@ -207,24 +208,22 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = () => {
     const { daily, weekly, monthly, averageTicket, stockMetrics, topProducts, salesLast30Days } = dashboardData;
 
     return (
-      <ScrollView
-        style={styles.container}
-        refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={handleRefresh}
-            colors={['#007AFF']}
-            tintColor="#007AFF"
-          />
-        }
+      <View style={styles.wrapper}>
+        <Header title="Dashboard" />
+        <ScrollView
+          style={styles.container}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={handleRefresh}
+              colors={['#007AFF']}
+              tintColor="#007AFF"
+            />
+          }
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.titleContainer}>
-            <Settings color="#FFFFFF" size={28} style={styles.titleIcon} />
-            <Text style={styles.title}>Dashboard</Text>
-          </View>
+        {/* Shop info and seed data */}
+        <View style={styles.contentHeader}>
           {activeShop && (
             <Text style={styles.shopName}>{activeShop.nomeDaLoja}</Text>
           )}
@@ -376,6 +375,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = () => {
         {/* Bottom padding */}
         <View style={styles.bottomPadding} />
       </ScrollView>
+    </View>
     );
   };
 
@@ -396,22 +396,18 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = () => {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: '#09090B',
+  },
   container: {
     flex: 1,
     backgroundColor: '#09090B',
   },
-  header: {
+  contentHeader: {
     backgroundColor: '#18181B',
-    padding: 16,
-    paddingTop: 60, // Safe area
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#27272A',
   },

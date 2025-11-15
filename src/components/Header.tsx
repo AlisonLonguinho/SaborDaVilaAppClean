@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { Menu } from 'lucide-react-native';
 
 interface HeaderProps {
   title: string;
@@ -11,16 +11,34 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
   const navigation = useNavigation();
 
   const openDrawer = () => {
-    // getParent() should be the Drawer navigator
-    // @ts-ignore - runtime check
-    navigation?.getParent?.()?.openDrawer?.();
+    try {
+      // Tenta múltiplas abordagens para abrir o drawer
+      if (navigation.getParent?.()?.openDrawer) {
+        navigation.getParent().openDrawer();
+      } else if (navigation.openDrawer) {
+        // @ts-ignore
+        navigation.openDrawer();
+      } else {
+        // Último recurso: dispatcha ação diretamente
+        navigation.dispatch(DrawerActions.openDrawer());
+      }
+    } catch (error) {
+      console.log('Erro ao abrir drawer:', error);
+      // Fallback: dispatcha ação
+      navigation.dispatch(DrawerActions.openDrawer());
+    }
   };
 
   return (
     <View style={styles.container}>
       {Platform.OS === 'android' && (
-        <TouchableOpacity style={styles.leftButton} onPress={openDrawer} accessibilityLabel="Abrir menu">
-          <MaterialIcons name="menu" size={26} color="#FFFFFF" />
+        <TouchableOpacity 
+          style={styles.leftButton} 
+          onPress={openDrawer} 
+          accessibilityLabel="Abrir menu"
+          accessibilityHint="Toque para abrir o menu lateral"
+        >
+          <Menu size={26} color="#FFFFFF" />
         </TouchableOpacity>
       )}
 

@@ -1,59 +1,88 @@
 ---
-query: "Gere para mim a arquitetura do aplicativo mobile que desevolvi "
+query: "Gere para mim a arquitetura completa do aplicativo mobile SaborDaVila"
 references:
   - "File: /src"
-generationTime: 2025-11-14T16:08:13.737Z
+generationTime: 2025-11-15T00:00:00.000Z
 ---
 architecture-beta
-    %% Frontend Layer
-    group frontend_layer(mdi:api)[Frontend Layer]
+    %% Presentation Layer
+    group presentation(cloud)[Presentation Layer]
     
-    %% Navigation Layer  
-    group navigation_layer(mdi:lan)[Navigation Layer]
+    %% Business Logic Layer  
+    group business_logic(server)[Business Logic Layer]
     
-    %% Data Layer
-    group data_layer(mdi:database)[Data Layer]
+    %% Data Access Layer
+    group data_access(database)[Data Access Layer]
     
-    %% External Services Layer
-    group external_layer(mdi:cloud)[External Services]
+    %% Infrastructure Layer
+    group infrastructure(disk)[Infrastructure Layer]
     
-    %% React Native Core Services
-    service react_app(mdi:server)[React Native App] in frontend_layer
-    service expo_framework(mdi:api)[Expo Framework] in frontend_layer
-    service vector_icons(mdi:chart_line)[Vector Icons] in frontend_layer
-    service status_bar(mdi:shield)[Status Bar] in frontend_layer
+    %% External Services
+    group external_services(internet)[External Services]
     
-    %% Navigation Services
-    service expo_router(mdi:lan)[Expo Router] in navigation_layer
-    service drawer_navigation(mdi:lan)[Drawer Navigation] in navigation_layer
-    service navigation_stack(mdi:lan)[Navigation Stack] in navigation_layer
+    %% Presentation Components
+    service react_native(cloud)[React Native] in presentation
+    service expo_framework(cloud)[Expo Framework] in presentation
+    service lucide_icons(cloud)[Lucide Icons] in presentation
+    service expo_router(cloud)[Expo Router] in presentation
+    service navigation_drawer(cloud)[Navigation Drawer] in presentation
+    service android_diagnostic(cloud)[Android Diagnostic] in presentation
     
-    %% Data Management Services
-    service sqlite_database(mdi:database)[SQLite Database] in data_layer
-    service file_system(mdi:harddisk)[File System] in data_layer
-    service app_constants(mdi:shield)[App Constants] in data_layer
+    %% Business Logic Services
+    service auth_context(server)[Auth Context] in business_logic
+    service auth_service(server)[Auth Service] in business_logic
+    service dashboard_service(server)[Dashboard Service] in business_logic
+    service shop_service(server)[Shop Service] in business_logic
+    service report_service(server)[Report Service] in business_logic
+    service admin_service(server)[Admin Service] in business_logic
     
-    %% External Integration Services
-    service linking_service(mdi:cloud)[Deep Linking] in external_layer
-    service web_support(mdi:api)[Web Support] in external_layer
-    service native_apis(mdi:server)[Native APIs] in external_layer
+    %% Data Access Components
+    service database_manager(database)[Database Manager] in data_access
+    service auth_repository(database)[Auth Repository] in data_access
+    service product_repository(database)[Product Repository] in data_access
+    service sales_repository(database)[Sales Repository] in data_access
+    service asyncstorage_fallback(database)[AsyncStorage Fallback] in data_access
+    service seed_data(database)[Seed Data] in data_access
     
-    %% Core App Flow Connections
-    react_app:B --> T:expo_framework
-    expo_framework:R --> L:expo_router
-    expo_router:R --> L:drawer_navigation
-    drawer_navigation:B --> T:navigation_stack
+    %% Infrastructure Components
+    service sqlite_database(disk)[SQLite Database] in infrastructure
+    service expo_file_system(disk)[Expo File System] in infrastructure
+    service async_storage(disk)[Async Storage] in infrastructure
+    service netsim_config(disk)[NetSim Config] in infrastructure
     
-    %% Data Flow Connections
-    react_app:B --> T:sqlite_database
-    sqlite_database:R --> L:file_system
-    file_system:R --> L:app_constants
+    %% External Services
+    service export_database(internet)[Database Export] in external_services
     
-    %% UI Enhancement Connections
-    expo_framework:B --> T:vector_icons
-    vector_icons:R --> L:status_bar
+    %% Presentation to Business Logic Connections
+    react_native:B --> T:auth_context
+    expo_router:B --> T:auth_service
+    navigation_drawer:B --> T:dashboard_service
+    android_diagnostic:B --> T:shop_service
     
-    %% External Service Connections
-    expo_framework:R --> L:linking_service
-    linking_service:B --> T:web_support
-    web_support:R --> L:native_apis
+    %% Business Logic to Data Access Connections
+    auth_service:B --> T:auth_repository
+    dashboard_service:B --> T:product_repository
+    shop_service:B --> T:sales_repository
+    admin_service:B --> T:database_manager
+    
+    %% Data Access to Infrastructure Connections
+    auth_repository:B --> T:sqlite_database
+    product_repository:B --> T:sqlite_database
+    sales_repository:B --> T:sqlite_database
+    asyncstorage_fallback:B --> T:async_storage
+    database_manager:B --> T:expo_file_system
+    
+    %% Cross-Layer Connections
+    seed_data:R --> L:sqlite_database
+    seed_data:L --> R:asyncstorage_fallback
+    android_diagnostic:R --> L:asyncstorage_fallback
+    database_manager:R --> L:export_database
+    
+    %% UI Framework Connections
+    expo_framework:R --> L:lucide_icons
+    expo_framework:B --> T:expo_router
+    expo_router:R --> L:navigation_drawer
+    
+    %% Infrastructure Cross-Connections
+    sqlite_database:R --> L:expo_file_system
+    expo_file_system:R --> L:netsim_config
